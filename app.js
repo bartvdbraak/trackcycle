@@ -9,7 +9,3 @@ const fulfillmentsRepository = new FulfillmentsRepository(SHOPIFY_URL, PRIVATE_P
 	// let fulfillmentWasUpdated = await fulfillmentsRepository.updateFulfillmentTrackingUrl(2143621808221, 'LL444859037LU', 'http://google.com', 'loller');
 	console.log(invalidFulfillments);
 })();
-
-
-
-// const oauth2 = require('simple-oauth2').create(credentials);
