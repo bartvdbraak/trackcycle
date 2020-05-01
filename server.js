@@ -1,19 +1,27 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const _ = require('lodash');
 const FulfillmentsRepository = require('./FulfillmentsRepository');
 
-const { PRIVATE_PASSWORD, SHOPIFY_URL } = process.env;
-const fulfillmentsRepository = new FulfillmentsRepository(SHOPIFY_URL, PRIVATE_PASSWORD);
+const config = require('./config.json');
+const defaultConfig = config.development;
+const environment = process.env.NODE_ENV || 'development';
+const environmentConfig = config[environment];
+const finalConfig = _.merge(defaultConfig, environmentConfig);
+
+global.gConfig = finalConfig;
+
+const { PRIVATE_PASSWORD } = process.env;
+const fulfillmentsRepository = new FulfillmentsRepository(global.gConfig.shopify_url, PRIVATE_PASSWORD);
 
 const app = express();
-const PORT = 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true,
 }));
 
-app.post('/webhooks/fulfillment', (req, res) => {
+app.post(global.gConfig.listen_endpoint, (req, res) => {
 	res.send('OK');
 
 	const data = req.body;
@@ -25,10 +33,11 @@ app.post('/webhooks/fulfillment', (req, res) => {
 		tracking_company: data.tracking_company
 	});
 
-	let newTrackingUrl = `https://www.urbandeal.nl/apps/parcelpanel?nums=${data.tracking_number}`;
+	let newTrackingUrl = `${global.gConfig.new_tracking_url}${data.tracking_number}`;
 
-	let fulfillmentWasUpdated = fulfillmentsRepository.updateFulfillmentTrackingUrl( data.id, data.tracking_number, newTrackingUrl, data.tracking_company);
-	console.log(fulfillmentWasUpdated)
+	console.log(newTrackingUrl)
+	// let fulfillmentWasUpdated = fulfillmentsRepository.updateFulfillmentTrackingUrl( data.id, data.tracking_number, newTrackingUrl, data.tracking_company);
+	// console.log(fulfillmentWasUpdated)
 });
 
-app.listen(PORT, () => console.log(`Listening for Shopify webhook event data on port ${PORT}. Started ${new Date().toString()}`));
+app.listen(global.gConfig.node_port, () => console.log(`Listening for Shopify webhook event data on port ${global.gConfig.node_port}. Started ${new Date().toString()}`));

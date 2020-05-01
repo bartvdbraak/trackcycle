@@ -3,8 +3,8 @@ const fetch = require("node-fetch");
 
 class FulfillmentsRepository {
 
-	constructor(shopifyUrl, accessToken) {
-		this.baseUrl = `https://${shopifyUrl}/admin/api/2020-04/`;
+	constructor(shopifyUrl, apiVersion, accessToken) {
+		this.baseUrl = `https://${shopifyUrl}/admin/api/${apiVersion}/`;
 		this.headers = {
 			'X-Shopify-Access-Token': accessToken,
 			'Content-Type': "application/json"
@@ -19,7 +19,7 @@ class FulfillmentsRepository {
 		}
 	}
 
-	async getInvalidFulfillments(limit = 50, urlContains = 'urbandeal') {
+	async getInvalidFulfillments(limit = 50, urlContains) {
 		let params = {
 			fulfillment_status: 'shipped',
 			status: 'closed',
@@ -41,7 +41,7 @@ class FulfillmentsRepository {
 			.then(async json => {
 				await json.orders.forEach(order => {
 					let fulfillments = order.fulfillments.filter(function (fulfillment) {
-						return fulfillment.tracking_url.indexOf(urlContains) == -1;
+						return fulfillment.tracking_url.indexOf(urlContains) === -1;
 					});
 
 					invalidFulfillments = [...invalidFulfillments, ...fulfillments];
@@ -59,7 +59,7 @@ class FulfillmentsRepository {
 		});
 	}
 
-	async updateFulfillmentTrackingUrl(id, number, url, company = 'CNE LU', notifyCustomer = true) {
+	async updateFulfillmentTrackingUrl_old(id, number, url, company, notifyCustomer = true) {
 		let options = {
 			headers: this.headers,
 			method: 'POST',
@@ -79,6 +79,12 @@ class FulfillmentsRepository {
 
 		return request.status === 200;
 	}
+
+	// checkFulfillmentTrackingUrl(trackingUrl) {
+	//
+	// }
+	//
+	// updateFulfillmentTrackingUrl()
 
 }
 
