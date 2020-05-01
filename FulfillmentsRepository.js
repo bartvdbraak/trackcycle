@@ -75,16 +75,39 @@ class FulfillmentsRepository {
 			}),
 		};
 
+		console.log(options);
+
 		let request = await fetch(`${this.baseUrl}/fulfillments/${id}/update_tracking.json`, options);
 
 		return request.status === 200;
 	}
 
-	// checkFulfillmentTrackingUrl(trackingUrl) {
-	//
-	// }
-	//
-	// updateFulfillmentTrackingUrl()
+	fulfillmentTrackingUrlIncorrect(trackingUrl, newTrackingUrl) {
+		return (trackingUrl === null || trackingUrl.indexOf(newTrackingUrl) === -1) ;
+	}
+
+	async updateFulfillmentTrackingUrl(id, number, url, company, notifyCustomer) {
+		let options = {
+			headers: this.headers,
+			method: 'POST',
+			body: JSON.stringify({
+				'fulfillment': {
+					'notify_customer': notifyCustomer,
+					'tracking_info': {
+						'number': number,
+						'url': url,
+						'company': company
+					}
+				}
+			}),
+		};
+
+		console.log(options);
+		let request = await fetch(`${this.baseUrl}fulfillments/${id}/update_tracking.json`, options);
+
+		console.log(request);
+		return request.status === 200;
+	}
 
 }
 
