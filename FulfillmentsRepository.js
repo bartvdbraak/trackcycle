@@ -2,8 +2,7 @@ const {URLSearchParams} = require('url');
 const fetch = require("node-fetch");
 
 class FulfillmentsRepository {
-
-	constructor(shopifyUrl, apiVersion, accessToken) {
+	constructor(shopifyUrl, accessToken, apiVersion) {
 		this.baseUrl = `https://${shopifyUrl}/admin/api/${apiVersion}/`;
 		this.headers = {
 			'X-Shopify-Access-Token': accessToken,
@@ -28,7 +27,7 @@ class FulfillmentsRepository {
 				'id',
 				'fulfillment_status'
 			],
-			limit: 50
+			limit: limit
 		};
 
 		let queryString = new URLSearchParams(params).toString();
@@ -59,33 +58,6 @@ class FulfillmentsRepository {
 		});
 	}
 
-	async updateFulfillmentTrackingUrl_old(id, number, url, company, notifyCustomer = true) {
-		let options = {
-			headers: this.headers,
-			method: 'POST',
-			body: JSON.stringify({
-				'fulfillment': {
-					'notify_customer': true,
-					'tracking_info': {
-						'number': number,
-						'url': url,
-						'company': company
-					}
-				}
-			}),
-		};
-
-		console.log(options);
-
-		let request = await fetch(`${this.baseUrl}/fulfillments/${id}/update_tracking.json`, options);
-
-		return request.status === 200;
-	}
-
-	fulfillmentTrackingUrlIncorrect(trackingUrl, newTrackingUrl) {
-		return (trackingUrl === null || trackingUrl.indexOf(newTrackingUrl) === -1) ;
-	}
-
 	async updateFulfillmentTrackingUrl(id, number, url, company, notifyCustomer) {
 		let options = {
 			headers: this.headers,
@@ -101,11 +73,8 @@ class FulfillmentsRepository {
 				}
 			}),
 		};
-
-		console.log(options);
 		let request = await fetch(`${this.baseUrl}fulfillments/${id}/update_tracking.json`, options);
 
-		console.log(request);
 		return request.status === 200;
 	}
 

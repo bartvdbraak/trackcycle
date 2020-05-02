@@ -1,19 +1,6 @@
 {
-  "development": {
-    "config_id": "development",
-    "node_port": 3000,
-    "listen_endpoint": "/webhooks/fulfillment",
-    "api_version": "2020-04",
-    "shopify_url": "trackingcodereplace.myshopify.com",
-    "new_tracking_url": "https://www.urbandeal.nl/apps/parcelpanel?nums=",
-    "url_does_not_contain": "urbandeal",
-    "default_shipping_company": "CNE LU",
-    "notify_customer": false
-  },
-  "production": {
-    "config_id": "production",
-    "node_port": 8080,
-    "shopify_url": "roelie.myshopify.com",
-    "notify_customer": true
-  }
+  "api_version": "2020-04",
+  "new_tracking_url": "https://www.urbandeal.nl/apps/parcelpanel?nums=",
+  "default_shipping_company": "CNE LU",
+  "notify_customer": true
 }
