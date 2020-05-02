@@ -1,0 +1,9 @@
+Error: Sat May 02 2020 21:13:42 GMT+0200 (Central European Summer Time): Tracking url for #9999.1 could not be updated. Error status: 404
+    at FulfillmentsRepository.updateFulfillmentTrackingUrl (/Users/bartvdbraak/Repositories/trackcycle/FulfillmentsRepository.js:80:10)
+    at process._tickCallback (internal/process/next_tick.js:68:7)
+Error: Sat May 02 2020 21:14:14 GMT+0200 (Central European Summer Time): Tracking url for #9999.1 could not be updated. Error status: 404
+    at FulfillmentsRepository.updateFulfillmentTrackingUrl (/Users/bartvdbraak/Repositories/trackcycle/FulfillmentsRepository.js:80:10)
+    at process._tickCallback (internal/process/next_tick.js:68:7)
+Error: Sat May 02 2020 21:15:48 GMT+0200 (Central European Summer Time): Tracking url for #9999.1 could not be updated. Error status: 404
+    at FulfillmentsRepository.updateFulfillmentTrackingUrl (/Users/bartvdbraak/Repositories/trackcycle/FulfillmentsRepository.js:80:10)
+    at process._tickCallback (internal/process/next_tick.js:68:7)

@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({
 	extended: true,
 }));
 
-app.post(LISTEN_PORT, async (req, res) => {
+app.post('/webhooks/fulfillment/created', async (req, res) => {
 	res.send('OK');
 
 	const data = req.body;
@@ -25,7 +25,17 @@ app.post(LISTEN_PORT, async (req, res) => {
 	let newTrackingUrl = `${config.new_tracking_url}${data.tracking_number}`;
 
 	if (data.tracking_url === null || data.tracking_url.indexOf(newTrackingUrl) === -1) {
-		await fulfillmentsRepository.updateFulfillmentTrackingUrl(data.id, data.tracking_number, newTrackingUrl, newTrackingCompany, config.notify_customer)
+		try {
+			await fulfillmentsRepository.updateFulfillmentTrackingUrl(
+				data.id,
+				data.tracking_number,
+				newTrackingUrl,
+				newTrackingCompany,
+				config.notify_customer,
+				data.name);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 });
 

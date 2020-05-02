@@ -58,7 +58,7 @@ class FulfillmentsRepository {
 		});
 	}
 
-	async updateFulfillmentTrackingUrl(id, number, url, company, notifyCustomer) {
+	async updateFulfillmentTrackingUrl(id, number, url, company, notifyCustomer, name) {
 		let options = {
 			headers: this.headers,
 			method: 'POST',
@@ -73,9 +73,12 @@ class FulfillmentsRepository {
 				}
 			}),
 		};
+
 		let request = await fetch(`${this.baseUrl}fulfillments/${id}/update_tracking.json`, options);
 
-		return request.status === 200;
+		if(request.status !== 200) {
+			throw new Error(`${new Date().toString()}: Tracking url for ${ name } could not be updated. Error status: ${ request.status }`);
+		}
 	}
 
 }
