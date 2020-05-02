@@ -1,0 +1,6 @@
+{
+  "api_version": "2020-04",
+  "new_tracking_url": "https://17track.net/nums=",
+  "default_shipping_company": "FedEx",
+  "notify_customer": true
+}
