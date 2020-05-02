@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development node server.js 2>> errors.log",
-    "prod": "NODE_ENV=production node server.js 2>> errors.log",
-    "all": "NODE_ENV=production node app.js 2>> errors.log"
+    "start": "node server.js 2>> errors.log",
+    "all": "node app.js 2>> errors.log"
   },
   "keywords": [],
   "author": "",
