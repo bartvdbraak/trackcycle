@@ -1,6 +1,6 @@
 {
   "api_version": "2020-04",
-  "new_tracking_url": "https://17track.net/nums=",
-  "default_shipping_company": "FedEx",
+  "new_tracking_url": "https://trackingwebsite.com/nums=",
+  "default_shipping_company": "Postal Service",
   "notify_customer": true
 }
