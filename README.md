@@ -34,7 +34,7 @@ You will see and be needing the following information for the configuration:
 - Click **Create webhook** with:
   - **Event** as `Fulfillment creation`, 
   - **Format** as `JSON`, 
-  - **URL** either your custom domain (such as `https://yourdomain.com/webhooks/fulfillment/create`) or a tunneled location (shown in later steps),
+  - **URL** either your custom domain (such as `https://yourdomain.com/webhooks/fulfillment/created`) or a tunneled location (shown in later steps),
   - **API version** as `2020-04`.
 - **Save webhook**.
 
