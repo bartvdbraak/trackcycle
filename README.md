@@ -1,4 +1,4 @@
-## TrackCycle
+# TrackCycle
 This project runs a server to interact with new fulfillments on a Shopify store. It uses webhooks to indicate a new fulfillment and has the ability to change the Tracking URL to something that is custom.
 
 ## Getting started
@@ -60,16 +60,16 @@ Change `config.json.example` to `config.json`. Change the following config varia
 - `default_shipping_company` to a default shipping company when it was left blank by fulfiller;
 - `notify_customer` to either `true` if you want to send a confirmation email to the customer or `false` if not.
 
-# Testing on local server
+## Testing on local server
 
-## Install ngrok.io
+### Install ngrok.io
 
 - Go to [their website](https://ngrok.com/download) and follow the instructions,
  
  or
 - MacOS: `brew cask install ngrok` with HomeBrew
 
-## Start server and tunnel
+### Start server and tunnel
 
 In one terminal we have to start the node.js server:
 ```
@@ -81,7 +81,7 @@ ngrok http 3000
 ```
 In this output we will see an address we need (e.q. `https://abc123.ngrok.io`). Copy this address.
 
-## Change the webhook endpoint
+### Change the webhook endpoint
 
 - Go to Shopify Settings, then navigate to Notifications and scroll down.
 - Click the webhook event we have just created and change `URL` to the address we copied plus `/webhooks/fulfillment/created`
@@ -89,20 +89,20 @@ In this output we will see an address we need (e.q. `https://abc123.ngrok.io`). 
   Example: `https://abc123.ngrok.io/webhooks/fulfillment/created`
 - Save webhook.
 
-## Test the webhook
+### Test the webhook
 
 - Go to Shopify Settings, then navigate to Notifications and scroll down.
 - In the webhook event we have just created, click `Send test notification`.
 - In the error logs (`error.log`) we will see an error output. This is correct since we correctly received a notification but this notification refers to a non-existent fulfillment (which we cannot change, thus `403` error).
 
-# Deploying to Production server
+## Deploying to Production server
 
 If you are unsure about how to do this, please read the [following guide](https://www.digitalocean.com/community/tutorials/how-to-use-pm2-to-setup-a-node-js-production-environment-on-an-ubuntu-vps) on how to set up a Node.JS server on DigitalOcean or other server hosts.
 
-## Rsync to production server
+### Rsync to production server
 
 `rsync -rlzqcOD --exclude={.env.development,.env.example,config.json.example,.gitignore,.git,.idea} ./`
 
-## PM2 as processmanager for Node
+### PM2 as processmanager for Node
 
 `pm2 start server.js --name TrackCycle`
