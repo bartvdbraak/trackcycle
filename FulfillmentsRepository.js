@@ -1,4 +1,3 @@
-const {URLSearchParams} = require('url');
 const fetch = require("node-fetch");
 
 class FulfillmentsRepository {
@@ -8,54 +7,6 @@ class FulfillmentsRepository {
 			'X-Shopify-Access-Token': accessToken,
 			'Content-Type': "application/json"
 		};
-	}
-
-	validateResponse(response) {
-		if (response.ok) {
-			return response;
-		} else {
-			throw Error(response.statusText);
-		}
-	}
-
-	async getInvalidFulfillments(limit = 50, urlContains) {
-		let params = {
-			fulfillment_status: 'shipped',
-			status: 'closed',
-			fields: [
-				'fulfillments',
-				'id',
-				'fulfillment_status'
-			],
-			limit: limit
-		};
-
-		let queryString = new URLSearchParams(params).toString();
-
-		let invalidFulfillments = [];
-
-		await fetch(`${this.baseUrl}orders.json?${queryString}`, {headers: this.headers})
-			.then(this.validateResponse)
-			.then(data => data.json())
-			.then(async json => {
-				await json.orders.forEach(order => {
-					let fulfillments = order.fulfillments.filter(function (fulfillment) {
-						return fulfillment.tracking_url.indexOf(urlContains) === -1;
-					});
-
-					invalidFulfillments = [...invalidFulfillments, ...fulfillments];
-				});
-			});
-
-		return invalidFulfillments.map((fulfillments) => {
-			return {
-				id: fulfillments.id,
-				order_id: fulfillments.order_id,
-				tracking_number: fulfillments.tracking_number,
-				tracking_url: fulfillments.tracking_url,
-				company: fulfillments.company
-			}
-		});
 	}
 
 	async updateFulfillmentTrackingUrl(id, number, url, company, notifyCustomer, name) {
