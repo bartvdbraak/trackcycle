@@ -1,15 +1,14 @@
 {
-  "name": "trackcycle",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "TrackCycle",
+  "version": "1.0.1",
+  "description": "Interact with new fulfillments and change their properties on a Shopify store using webhooks.",
+  "main": "server.js",
   "scripts": {
-    "start": "node server.js 2>> errors.log",
-    "all": "node app.js 2>> errors.log"
+    "start": "node server.js 2>> errors.log"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["node", "shopify", "fufillments", "tracking"],
+  "author": "Bart van der Braak",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.0",
     "crypto": "^1.0.1",
