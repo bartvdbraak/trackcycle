@@ -6,7 +6,7 @@ This project runs a server to interact with new fulfillments on a Shopify store.
 Follow the steps below to get started using this project on a Shopify store.
 
 ### Prerequisites
-- Shopify Store Private App (`yourdomain.myshopify.com`)
+- Shopify Store Private App (`yourstore.myshopify.com`)
 - Web server / Ngrok.io
 
 #### Getting a Shopify Private App
@@ -14,52 +14,59 @@ Follow the steps below to get started using this project on a Shopify store.
 - Go to your stores admin panel, then navigate to *Apps*, and scroll down till you see the following:
 > Working with a developer on your shop? Manage private apps
 
-- Go to `Manage private apps`, then `Create new private app` 
-- Give the application a name and enter your email
-- Click `Show inactive Admin API permissions` and select `Read and write` access scope for: **Fulfillment services (read_fulfillments, write_fulfillments)**
-- Use the `2020-04` API Version.
-- Click save
+- Go to **Manage private apps**, then **Create new private app**;
+- Give the application a **name** and enter your **email**;
+- Click **Show inactive Admin API permissions** and select `Read and write` access scope for: **Fulfillment services (read_fulfillments, write_fulfillments)**;
+- Use `2020-04` for the **API Version**;
+- Click **save**.
 
 You will see and be needing the following information for the configuration:
 
 - Password
 - Shared Secret
 
-####Setting up a webhook endpoint
+#### Setting up a webhook endpoint
 
-- Go to Shopify Settings, then navigate to Notifications and scroll down and take note of:
+- Go to **Shopify Settings**, then navigate to **Notifications** and scroll down and take note of:
 > All your webhooks will be signed with ... so you can verify their integrity.
 
 - This will be our `HTTP_X_SHOPIFY_HMAC_SHA256` in the configuration.
-- Click `Create webhook` with event `Fulfillment creation`, format `JSON`, URL can be your custom domain (such as `https://yourdomain.com/webhooks/fulfillment/create`) or a tunneled location (we will change this later). API version should be set to `2020-04`.
-- Save webhook.
+- Click **Create webhook** with:
+  - **Event** as `Fulfillment creation`, 
+  - **Format** as `JSON`, 
+  - **URL** either your custom domain (such as `https://yourdomain.com/webhooks/fulfillment/create`) or a tunneled location (shown in later steps),
+  - **API version** as `2020-04`.
+- **Save webhook**.
 
 ## Installing
 
+Clone this repository and install the required node modules.
 ```
-git clone https://github.com/bartvdbraak/SlayerWeightCalculator.git
+git clone https://github.com/bartvdbraak/trackcycle.git
 npm install
 ```
 
 ## Configuring
 
 Change `.env.example` to `.env`. Change the following environment variables:
-- `PRIVATE_PASSWORD` to Password from the created Private App;
-- `HTTP_X_SHOPIFY_HMAC_SHA256` to the Signed Secret from the Shopify notifcations/webhooks page;
+- `PRIVATE_PASSWORD` to **Password** from the created Private App;
+- `HTTP_X_SHOPIFY_HMAC_SHA256` to the **Signed Secret** from the **Shopify notifcations/webhooks** page;
 - `LISTEN_PORT` to the port on which our server will be listening (Default `3000`)
 - `SHOPIFY_URL` to the URL of your store (e.g. `yourstore.myshopify.com`)
 
 Change `config.json.example` to `config.json`. Change the following config variables:
 - `api_version` to the Shopify API version we used (`2020-04`);
 - `new_tracking_url` to new tracking URL without the number (e.g. `https://www.17track.net?nums=`);
-- `default_shipping_company` to a default shipping company when it was not filled in by fulfiller;
+- `default_shipping_company` to a default shipping company when it was left blank by fulfiller;
 - `notify_customer` to either `true` if you want to send a confirmation email to the customer or `false` if not.
 
 # Testing on local server
 
 ## Install ngrok.io
 
-- Go to [their website](https://ngrok.com/download) and follow the instructions or
+- Go to [their website](https://ngrok.com/download) and follow the instructions,
+ 
+ or
 - MacOS: `brew cask install ngrok` with HomeBrew
 
 ## Start server and tunnel
